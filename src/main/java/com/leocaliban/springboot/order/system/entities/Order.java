@@ -12,18 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.leocaliban.springboot.order.system.entities.enums.OrderStatus;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tb_user")
 public class Order implements Serializable {
@@ -32,14 +28,41 @@ public class Order implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Getter
+	@Setter
 	private Long id;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	@Getter
+	@Setter
 	private Instant moment;
+
+	private Integer orderStatus;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
+	@Getter
+	@Setter
 	private User client;
+
+	@Builder
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
+		super();
+		this.id = id;
+		this.moment = moment;
+		this.setOrderStatus(orderStatus);
+		this.client = client;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
+		}
+	}
 
 	@Override
 	public int hashCode() {
