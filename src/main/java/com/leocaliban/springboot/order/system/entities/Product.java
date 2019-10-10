@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
@@ -52,6 +54,11 @@ public class Product implements Serializable {
 			  inverseJoinColumns = @JoinColumn(name = "category_id"))
 	@JsonManagedReference
 	private Set<Category> categories = new HashSet<>();
+	
+	@OneToMany(mappedBy = "id.product")
+	@Getter(value = AccessLevel.NONE)
+	@Setter(value = AccessLevel.NONE)
+	private Set<OrderItem> items = new HashSet<>();
 
 	@Builder
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
@@ -68,6 +75,13 @@ public class Product implements Serializable {
 	
 	public void removeCategory(Category category) {
 		categories.remove(category);
+	}
+	
+	@JsonIgnore
+	public Set<Order> getOrders(){
+		Set<Order> set = new HashSet<>();
+		this.items.forEach(o -> set.add(o.getOrder()));
+		return set;
 	}
 
 	@Override
