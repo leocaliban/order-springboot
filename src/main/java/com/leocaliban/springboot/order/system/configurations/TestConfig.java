@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.leocaliban.springboot.order.system.entities.Category;
 import com.leocaliban.springboot.order.system.entities.Order;
 import com.leocaliban.springboot.order.system.entities.OrderItem;
+import com.leocaliban.springboot.order.system.entities.Payment;
 import com.leocaliban.springboot.order.system.entities.Product;
 import com.leocaliban.springboot.order.system.entities.User;
 import com.leocaliban.springboot.order.system.entities.enums.OrderStatus;
@@ -84,6 +85,11 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = OrderItem.builder().order(o3).product(p5).quantity(2).price(p5.getPrice()).build();
 
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+
+		Payment pay1 = Payment.builder().moment(Instant.parse("2019-09-09T15:00:00Z")).order(o1).build();
+		o1.setPayment(pay1);
+
+		orderRepository.save(o1);
 
 	}
 }
