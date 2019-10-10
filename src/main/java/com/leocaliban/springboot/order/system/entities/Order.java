@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.leocaliban.springboot.order.system.entities.enums.OrderStatus;
 
 import lombok.Builder;
@@ -59,6 +60,7 @@ public class Order implements Serializable {
 	@Getter
 	@Setter
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Payment payment;
 
 	@Builder
@@ -68,6 +70,14 @@ public class Order implements Serializable {
 		this.moment = moment;
 		this.setOrderStatus(orderStatus);
 		this.client = client;
+	}
+
+	public Double getTotal() {
+		double sum = 0.0;
+		for (OrderItem x : items) {
+			sum += x.getSubTotal();
+		}
+		return sum;
 	}
 
 	public OrderStatus getOrderStatus() {
