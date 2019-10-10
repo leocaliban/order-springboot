@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.leocaliban.springboot.order.system.entities.Category;
 import com.leocaliban.springboot.order.system.entities.Order;
 import com.leocaliban.springboot.order.system.entities.User;
 import com.leocaliban.springboot.order.system.entities.enums.OrderStatus;
+import com.leocaliban.springboot.order.system.repositories.CategoryRepository;
 import com.leocaliban.springboot.order.system.repositories.OrderRepository;
 import com.leocaliban.springboot.order.system.repositories.UserRepository;
 
@@ -24,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private OrderRepository orderRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	@Override
 	public void run(String... args) throws Exception {
 		User u1 = User.builder().name("Jack").password("6876").phone("95989599898").email("jack@gmail.com").build();
@@ -36,7 +41,12 @@ public class TestConfig implements CommandLineRunner {
 		Order o3 = Order.builder().moment(Instant.parse("2019-07-20T12:00:00Z")).orderStatus(OrderStatus.CANCELED)
 				.client(u1).build();
 
+		Category c1 = Category.builder().name("Eletronics").build();
+		Category c2 = Category.builder().name("Books").build();
+		Category c3 = Category.builder().name("Computers").build();
+
 		repository.saveAll(Arrays.asList(u1, u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+		categoryRepository.saveAll(Arrays.asList(c1, c2, c3));
 	}
 }
