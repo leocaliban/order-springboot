@@ -2,6 +2,8 @@ package com.leocaliban.springboot.order.system.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,6 +21,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 
 @NoArgsConstructor
 @Entity
@@ -44,6 +48,11 @@ public class Order implements Serializable {
 	@Getter
 	@Setter
 	private User client;
+
+	@Getter
+	@Singular
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
 
 	@Builder
 	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
