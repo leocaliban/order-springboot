@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.leocaliban.springboot.order.system.entities.Category;
 import com.leocaliban.springboot.order.system.entities.Order;
+import com.leocaliban.springboot.order.system.entities.Product;
 import com.leocaliban.springboot.order.system.entities.User;
 import com.leocaliban.springboot.order.system.entities.enums.OrderStatus;
 import com.leocaliban.springboot.order.system.repositories.CategoryRepository;
 import com.leocaliban.springboot.order.system.repositories.OrderRepository;
+import com.leocaliban.springboot.order.system.repositories.ProductRepository;
 import com.leocaliban.springboot.order.system.repositories.UserRepository;
 
 @Configuration
@@ -28,6 +30,9 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private ProductRepository productRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -45,8 +50,20 @@ public class TestConfig implements CommandLineRunner {
 		Category c2 = Category.builder().name("Books").build();
 		Category c3 = Category.builder().name("Computers").build();
 
+		Product p1 = Product.builder().name("The Lord of the Rings")
+				.description("Lorem ipsum dolor sit amet, consectetur.").price(90.5).imgUrl("").build();
+		Product p2 = Product.builder().name("Smart TV").description("Nulla eu imperdiet purus. Maecenas ante.")
+				.price(2190.0).imgUrl("").build();
+		Product p3 = Product.builder().name("Macbook Pro").description("Nam eleifend maximus tortor, at mollis.")
+				.price(1250.0).imgUrl("").build();
+		Product p4 = Product.builder().name("PC Gamer").description("Donec aliquet odio ac rhoncus cursus.")
+				.price(1200.0).imgUrl("").build();
+		Product p5 = Product.builder().name("Rails for Dummies")
+				.description("Cras fringilla convallis sem vel faucibus.").price(100.99).imgUrl("").build();
+
 		repository.saveAll(Arrays.asList(u1, u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 		categoryRepository.saveAll(Arrays.asList(c1, c2, c3));
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 	}
 }

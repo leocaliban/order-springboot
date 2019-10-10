@@ -18,8 +18,8 @@ import lombok.Singular;
 
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_product")
+public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,14 +31,26 @@ public class Category implements Serializable {
 	@Getter	@Setter
 	private String name;
 
+	@Getter	@Setter
+	private String description;
+
+	@Getter	@Setter
+	private Double price;
+
+	@Getter	@Setter
+	private String imgUrl;
+
 	@Getter
 	@Singular
-	private Set<Product> products = new HashSet<>();
+	private Set<Category> categories = new HashSet<>();
 
 	@Builder
-	public Category(Long id, String name) {
+	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.imgUrl = imgUrl;
 	}
 
 	@Override
@@ -57,7 +69,7 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Product other = (Product) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -65,5 +77,4 @@ public class Category implements Serializable {
 			return false;
 		return true;
 	}
-
 }
