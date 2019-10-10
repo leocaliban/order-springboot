@@ -8,14 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_category")
@@ -25,14 +31,14 @@ public class Category implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter	@Setter
 	private Long id;
 
-	@Getter	@Setter
 	private String name;
 
-	@Getter
+	@Setter(value = AccessLevel.NONE)
 	@Singular
+	@ManyToMany(mappedBy = "categories")
+	@JsonBackReference
 	private Set<Product> products = new HashSet<>();
 
 	@Builder

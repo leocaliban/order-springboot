@@ -61,6 +61,13 @@ public class TestConfig implements CommandLineRunner {
 		Product p5 = Product.builder().name("Rails for Dummies")
 				.description("Cras fringilla convallis sem vel faucibus.").price(100.99).imgUrl("").build();
 
+		p1.addCategory(c2);
+		p2.addCategory(c1);
+		p2.addCategory(c3);
+		p3.addCategory(c3);
+		p4.addCategory(c3);
+		p5.addCategory(c2);
+
 		repository.saveAll(Arrays.asList(u1, u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 		categoryRepository.saveAll(Arrays.asList(c1, c2, c3));
